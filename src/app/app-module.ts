@@ -22,7 +22,7 @@ import { WishList } from './components/wish-list/wish-list';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners()

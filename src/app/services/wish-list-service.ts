@@ -15,11 +15,18 @@ export class WishListService {
       this.movieWishList.push(movie);
       console.log("added");
 
+      for(let m of this.movieWishList)
+      {
+        console.log(m);
+
+      }
+
     }
   }
 
   removeFromWishlist(id: number) {
     this.movieWishList = this.movieWishList.filter((m) => m.id !== id);
     console.log("removed");
+    console.log(this.movieWishList);
   }
 }

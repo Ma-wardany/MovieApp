@@ -1,1 +1,51 @@
-<p>wish-list works!</p>
+<h4 class="fw-bold mb-4">Watch list</h4>
+
+<div *ngIf="getWishList().length > 0; else emptyTemplate" class="row row-cols-1 row-cols-md-2 g-3">
+  <div class="col" *ngFor="let movie of getWishList()">
+    <div class="card shadow-sm border-0 rounded-4 p-3 d-flex flex-row gap-3 align-items-start">
+
+      <img [src]="movie.image" [alt]="movie.name"
+        style="width: 100px; height: 140px; object-fit: cover; border-radius: 0.75rem;" />
+
+      <div class="flex-grow-1">
+        <div class="d-flex justify-content-between align-items-start">
+          <h5 class="fw-bold mb-1">{{ movie.name }}</h5>
+          <i (click)="removeFromWishList(movie.id)" class="fa-solid fa-heart text-warning fs-5 me-4"
+            style="cursor: pointer;"></i>
+        </div>
+
+        <small class="text-muted d-block mb-1">{{ movie.date }}</small>
+
+        <div class="mb-1">
+          <ng-container *ngFor="let filled of getStarsArray(movie.rating); let i = index">
+            <i class="fa-star" [ngClass]="filled ? 'fa-solid text-warning' : 'fa-regular text-muted'"
+              style="cursor: pointer;" (click)="setRating(movie, i + 1)">
+            </i>
+          </ng-container>
+          <span class="text-muted ms-2">{{ movie.votes }}</span>
+        </div>
+
+
+        <p class="text-muted small mb-0" style="
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        ">
+          {{ movie.description }}
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #emptyTemplate>
+  <div class="d-flex flex-column align-items-center justify-content-center mt-5" style="min-height: 60vh;">
+    <div class="mb-3">
+      <i class="fa fa-heart-crack" style="font-size: 5rem; color: #ccc;"></i>
+    </div>
+    <p class="text-dark fw-normal mb-4" style="font-size: 1.1rem;">No Movies in watch list</p>
+    <button class="btn btn-warning px-4 py-2 rounded" routerLink="/home">Back to home</button>
+  </div>
+</ng-template>
