@@ -1,9 +1,7 @@
 <div class="card border-0 shadow-sm position-relative rounded-3" style="width: 16rem;">
-
   <div class="position-relative">
-    <img src="https://th.bing.com/th/id/OIF.IlRglslk4L7nj7RNG5SLbg?rs=1&pid=ImgDetMain" class="card-img-top"
-      alt="The Good Doctor Poster" style="height: 320px; object-fit: cover;">
-
+    <img [src]="movie.image" class="card-img-top" [alt]="movie.name + ' Poster'"
+      style="height: 320px; object-fit: cover;" />
 
     <div class="position-absolute top-100 start-0 translate-middle-y ms-3">
       <div class="bg-dark bg-opacity-80 text-success border border-success border-3 rounded-circle
@@ -14,15 +12,12 @@
     </div>
   </div>
 
-
   <div class="card-body p-3 mt-2">
-    <h5 class="card-title fw-semibold mb-1 text-dark">The Good Doctor</h5>
+    <h5 class="card-title fw-semibold mb-1 text-dark">{{ movie.name }}</h5>
     <div class="card-text text-muted mb-0 d-flex align-items-center justify-content-between gap-2">
-      <span>Sep 25, 2017</span>
-      <i class="fa-solid fa-heart fs-4"
-        [ngClass]="isFavourite ? 'text-warning' : 'text-secondary'"
-        style="cursor: pointer;"
-        (click)="toggleFavourite()">
+      <span>{{ movie.date }}</span>
+      <i class="fa-solid fa-heart fs-4" [ngClass]="isFavourite ? 'text-warning' : 'text-secondary'"
+        style="cursor: pointer;" (click)="toggleFavourite()">
       </i>
     </div>
   </div>
