@@ -1,0 +1,36 @@
+ nav {
+      background-color: #ffc107;
+    }
+    .nav-title {
+      margin: 0;
+      padding: 0.5rem 1rem;
+    }
+    .nav-actions {
+      padding: 0.5rem 1rem;
+    }
+    .dropdown-toggle {
+      background-color: transparent;
+      border-color: #000;
+      color: #000;
+    }
+    .btn-outline-danger {
+      background-color: transparent;
+      border-color: #dc3545;
+      color: #000;
+    }
+    .btn-outline-danger .fas {
+      color: #dc3545;
+    }
+    #wishlistCount {
+      color: #000;
+    }
+    .dropdown-menu {
+      background-color: #333;
+    }
+    .dropdown-item {
+      color: #fff;
+    }
+    .dropdown-item:hover {
+      background-color: #555;
+      color: #fff;
+    }

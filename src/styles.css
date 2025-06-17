@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+HU:wght@100..400&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
+
+body{
+  background-color: #131722;
+  color: #fff;
+  font-family: 'Montserrat Alternates', sans-serif !important;
+}
+
+a, a:hover{
+  color: #fff !important;
+  text-decoration: none;
+}
