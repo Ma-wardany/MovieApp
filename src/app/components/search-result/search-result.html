@@ -1,1 +1,34 @@
-<p>search-result works!</p>
+<h2>Results for "{{ term }}"</h2>
+<div class="container py-4">
+  <div class="row g-4 movies">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let movie of movies">
+      <div class="card movie-card h-100 shadow-sm position-relative">
+        <div class="card-image">
+          <img
+            [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+            class="card-img-top"
+            [alt]="movie.title"
+          />
+          <div class="rating-circle">
+            <span>{{ (movie.vote_average * 10) | number:'1.0-0' }}%</span>
+          </div>
+          <div class="options-button">
+            <i class="fas fa-ellipsis-h"></i>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <h5 class="movie-title">{{ movie.title }}</h5>
+          <div class="row">
+            <div class="col-md-9">
+              <p class="release-date fs-6">{{ movie.release_date }}</p>
+            </div>
+            <div class="col-md-3 ms-auto">
+              <i class="fas fa-heart favorite fs-4"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
