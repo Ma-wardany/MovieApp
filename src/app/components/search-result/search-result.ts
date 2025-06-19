@@ -1,6 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../../services/movie-service';
+import { WishListService } from '../../services/wish-list-service';
 
 @Injectable({ providedIn: 'root' })
 @Component({
@@ -17,7 +18,8 @@ export class SearchResult implements OnInit {
   constructor(
     public router: Router,
     private route: ActivatedRoute,
-    private movieService: MovieService
+    private movieService: MovieService,
+    public wishListService: WishListService
   ) {}
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -51,5 +53,17 @@ export class SearchResult implements OnInit {
     } else {
       return '#dc3545';
     }
+  }
+
+  toggleFavourite(movie: any) {
+    if (this.wishListService.getWishList().find((m) => m.id === movie.id)) {
+      this.wishListService.removeFromWishlist(movie.id);
+    } else {
+      this.wishListService.addToWishList(movie);
+    }
+  }
+
+  isInWishlist(movie: any): boolean {
+    return this.wishListService.getWishList().some((m) => m.id === movie.id);
   }
 }

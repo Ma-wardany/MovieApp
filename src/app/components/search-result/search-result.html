@@ -34,7 +34,13 @@
                 <p class="release-date fs-6">{{ movie.release_date }}</p>
               </div>
               <div class="col-md-3 ms-auto">
-                <i class="fas fa-heart favorite fs-2"></i>
+                <i
+                  class="fas fa-heart favorite fs-2"
+                  [ngClass]="isInWishlist(movie) ? 'text-warning' : 'text-secondary'"
+                  style="cursor: pointer"
+                  (click)="toggleFavourite(movie)"
+                >
+                </i>
               </div>
             </div>
           </div>
