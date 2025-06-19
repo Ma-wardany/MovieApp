@@ -1,57 +1,25 @@
-<h2>Results for "{{ term }}"</h2>
-<div *ngIf="loading">Loading.....</div>
-<div *ngIf="!loading && movies.length === 0">No results found.</div>
-<div class="container py-4">
-  <div class="row g-4 movies">
-    <div class="col-12 col-sm-4 col-md-3 col-lg-3" *ngFor="let movie of movies">
-      <div class="card movie-card h-100 shadow-sm position-relative">
-        <a
-          class="text-decoration-none"
-          [routerLink]="['/movie', movie.id]"
-          style="color: inherit"
-        >
-          <div class="card-image">
-            <img
-              [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-              class="card-img-top"
-              [alt]="movie.title"
-            />
-          </div>
-        </a>
-        <div class="card-body text-light">
-          <div class="card-body position-relative">
-            <div
-              class="rating-circle-border"
-              [ngStyle]="{
-    'background': 'conic-gradient(' + getRatingColor(movie.vote_average) + ' ' + (movie.vote_average * 10) + '%, #e0e0e0 0)'
-  }"
-            >
-              <div class="rating-inner">
-                {{ (movie.vote_average * 10) | number:'1.0-0' }}%
-              </div>
-            </div>
+<div class="container my-5">
 
-            <h5 class="movie-title mt-2">
-              {{ getLimitedWords(movie.title , 5) }}
-            </h5>
-            <div class="row mt-3">
-              <div class="col-md-9">
-                <p class="release-date fs-6">{{ movie.release_date }}</p>
-              </div>
+  <div class="text-center mb-4">
+    <h2 class="fw-bold" style="color: #ffc107;">Results for "{{ term }}"</h2>
+    <hr class="w-25 mx-auto border-warning">
+  </div>
 
-              <div class="col-md-3 ms-auto">
-                <i
-                  class="fas fa-heart favorite fs-2"
-                  [ngClass]="isInWishlist(movie) ? 'text-warning' : 'text-secondary'"
-                  style="cursor: pointer"
-                  (click)="toggleFavourite(movie)"
-                >
-                </i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-warning" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
   </div>
+
+  <div *ngIf="!loading && movies.length === 0" class="text-center text-muted mt-5">
+    <i class="fa-solid fa-film fa-2x mb-3 d-block"></i>
+    <p class="fs-5">No results found. Try another search.</p>
+  </div>
+
+  <div *ngIf="!loading && movies.length > 0" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+    <div class="col" *ngFor="let movie of movies">
+      <app-movie-card [movie]="movie"></app-movie-card>
+    </div>
+  </div>
+
 </div>

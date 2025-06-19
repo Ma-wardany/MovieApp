@@ -1,32 +1,26 @@
-import { LanguageService } from './../../services/language-service';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+// home.ts
+import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movie-service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { LanguageService } from '../../services/language-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: false,
   templateUrl: './home.html',
-  styleUrl: './home.css',
+  styleUrls: ['./home.css'],
 })
-export class Home {
-  searchQuery: string = '';
-
-  isActive = false;
+export class Home implements OnInit {
   query = '';
   movies: any[] = [];
-  currentPage: number = 1;
-  totalPages: number = 0;
-  searchTerm: string = '';
-  loading: boolean = true;
-  genreMovies: any[] = [];
-  selectedGenre: number | null = 28;
-  selectedGenreName: string = '';
   searchResults: any[] = [];
+  genreMovies: any[] = [];
+  currentPage = 1;
+  totalPages = 0;
   viewState: 'movies' | 'search' | 'genre' = 'movies';
+  loading = false;
 
+  // Example genres map; adjust as needed
   genres: { [key: number]: string } = {
     28: 'Action',
     35: 'Comedy',
@@ -38,202 +32,169 @@ export class Home {
     53: 'Thriller',
     12: 'Adventure',
   };
+  selectedGenre: number | null = null; // or default genre ID
 
   constructor(
     private movieService: MovieService,
+    public LanguageService: LanguageService,
     private router: Router,
-    public LanguageService: LanguageService
   ) {}
 
   ngOnInit(): void {
+    this.changeLanguageDirection();
     this.loadMovies(this.currentPage);
-    this.fetchMoviesByGenre();
-
-    this.LanguageService.language.subscribe((lang) => {
-      this.changeLanguage();
-      this.reloadData();
+    // If you have a default genre, you could call fetchMoviesByGenre() here.
+    this.LanguageService.language.subscribe(() => {
+      this.changeLanguageDirection();
+      this.reloadCurrentView();
     });
   }
 
-  toggleMenu() {
-    this.isActive = !this.isActive;
+  changeLanguageDirection(): void {
+    document.documentElement.dir =
+      this.LanguageService.getLanguage() === 'ar' ? 'rtl' : 'ltr';
   }
 
-  reloadData(): void {
-    if (this.viewState === 'movies') {
-      this.loadMovies(this.currentPage);
-    } else if (this.viewState === 'genre') {
-      this.fetchMoviesByGenre();
-    } else if (this.viewState === 'search') {
-      this.search();
+  getCurrentMovies(): any[] {
+    if (this.viewState === 'search') {
+      return this.searchResults;
     }
+    if (this.viewState === 'genre') {
+      return this.genreMovies;
+    }
+    return this.movies;
   }
 
-  OnSearch() {
-    if (!this.query.trim()) return;
-    this.router.navigate(['/search-result'], {
-      queryParams: { q: this.query },
-    });
+  OnSearch(): void {
+    const trimmed = this.query.trim();
+    if (!trimmed) {
+      console.warn('Search query is empty');
+      return;
+    }
+    // Navigate to /search?q=...
+    this.router.navigate(['/search-result'], { queryParams: { q: trimmed } });
   }
+
   search(): void {
-    if (!this.searchQuery.trim()) {
+    if (!this.query.trim()) {
+      console.warn('Search query is empty'); // Debug
       return;
     }
     this.loading = true;
-    this.viewState = 'search';
-    this.movieService
-      .searchMovies(this.searchQuery, this.currentPage)
-      .subscribe(
-        (data) => {
-          if (data && data.results) {
-            this.searchResults = data.results;
-            this.totalPages = data.total_pages;
-          } else {
-            console.error('No search results found');
-            this.searchResults = [];
-          }
-          this.loading = false;
-        },
-        (error) => {
-          console.error('Error searching movies:', error);
-          this.loading = false;
-        }
-      );
+    this.movieService.searchMovies(this.query, this.currentPage).subscribe({
+      next: (data) => {
+        console.log('Search API Response:', data); // Debug
+        this.searchResults = data?.results || [];
+        this.totalPages = data?.total_pages || 0;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Search API Error:', err); // Debug
+        this.loading = false;
+      },
+    });
   }
 
   loadMovies(page: number): void {
     this.loading = true;
     this.viewState = 'movies';
-    this.movieService.getMoviesByPage(page).subscribe(
-      (data) => {
-        if (data && data.results) {
-          this.movies = data.results;
-        } else {
-          console.error('No movie data received');
-        }
+    this.movieService.getMoviesByPage(page).subscribe({
+      next: (data) => {
+        console.log('Movies API Response:', data); // Debug
+        this.movies = data?.results || [];
+        this.totalPages = data?.total_pages || 0;
         this.loading = false;
       },
-      (error) => {
-        console.error('Error fetching movies:', error);
+      error: (err) => {
+        console.error('Movies API Error:', err); // Debug
         this.loading = false;
-      }
-    );
+      },
+    });
   }
 
   fetchMoviesByGenre(): void {
-    if (this.selectedGenre !== null) {
-      this.loading = true;
-      this.viewState = 'genre'; // Show genre movies
-      this.selectedGenreName = this.genres[this.selectedGenre];
-      this.movieService
-        .getMoviesByGenre(this.selectedGenre, this.currentPage)
-        .subscribe(
-          (data) => {
-            if (data && data.results) {
-              this.genreMovies = data.results;
-              this.totalPages = data.total_pages;
-            } else {
-              console.error('No genre movies found');
-              this.genreMovies = [];
-            }
-            this.loading = false;
-          },
-          (error) => {
-            console.error('Error fetching genre movies:', error);
-            this.loading = false;
-          }
-        );
+    if (!this.selectedGenre) {
+      console.warn('No genre selected'); // Debug
+      return;
     }
+    this.currentPage = 1;
+    this.viewState = 'genre';
+    this.loading = true;
+    this.movieService.getMoviesByGenre(this.selectedGenre, this.currentPage).subscribe({
+      next: (data) => {
+        console.log('Genre API Response:', data); // Debug
+        this.genreMovies = data?.results || [];
+        this.totalPages = data?.total_pages || 0;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Genre API Error:', err); // Debug
+        this.loading = false;
+      },
+    });
   }
 
   nextPage(): void {
-    if (this.currentPage) {
+    if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      if (this.viewState === 'movies') {
-        this.loadMovies(this.currentPage);
-      } else if (this.viewState === 'genre') {
-        this.fetchMoviesByGenre();
-      } else if (this.viewState === 'search') {
-        this.search();
-      }
+      console.log('Navigating to Next Page:', this.currentPage); // Debug
+      this.reloadCurrentView();
     }
   }
 
   previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      if (this.viewState === 'movies') {
-        this.loadMovies(this.currentPage);
-      } else if (this.viewState === 'genre') {
-        this.fetchMoviesByGenre();
-      } else if (this.viewState === 'search') {
-        this.search();
-      }
+      console.log('Navigating to Previous Page:', this.currentPage); // Debug
+      this.reloadCurrentView();
     }
   }
 
   goToPage(page: number): void {
-    if (page !== this.currentPage && page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
+    if (page === this.currentPage) {
+      return;
+    }
+    this.currentPage = page;
+    console.log('Navigating to Page:', this.currentPage); // Debug
+    this.reloadCurrentView();
+  }
 
-      if (this.viewState === 'movies') {
-        this.loadMovies(page);
-      } else if (this.viewState === 'genre') {
-        this.fetchMoviesByGenre();
-      } else if (this.viewState === 'search') {
-        this.search();
+  private reloadCurrentView(): void {
+    console.log('Reloading View:', this.viewState, 'Page:', this.currentPage); // Debug
+    if (this.viewState === 'movies') {
+      this.loadMovies(this.currentPage);
+    } else if (this.viewState === 'genre') {
+      if (!this.selectedGenre) {
+        console.warn('No genre selected in reload'); // Debug
+        return;
       }
+      this.loading = true;
+      this.movieService.getMoviesByGenre(this.selectedGenre, this.currentPage).subscribe({
+        next: (data) => {
+          console.log('Genre Reload API Response:', data); // Debug
+          this.genreMovies = data?.results || [];
+          this.totalPages = data?.total_pages || 0;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Genre Reload API Error:', err); // Debug
+          this.loading = false;
+        },
+      });
+    } else if (this.viewState === 'search') {
+      this.search();
     }
   }
 
   getDisplayedPages(): number[] {
-    const pages: number[] = [];
     const maxPagesToShow = 5;
-    let startPage = Math.max(1, this.currentPage - 2);
-    let endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
-
-    if (endPage - startPage < maxPagesToShow - 1) {
-      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    let start = Math.max(1, this.currentPage - 2);
+    let end = Math.min(this.totalPages, start + maxPagesToShow - 1);
+    if (end - start < maxPagesToShow - 1) {
+      start = Math.max(1, end - maxPagesToShow + 1);
     }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-
+    const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    console.log('Displayed Pages:', pages); // Debug
     return pages;
-  }
-
-  showMovieDetails(movie: any): void {
-    const movieTitle = encodeURIComponent(
-      movie.title.toLowerCase().replace(/ /g, '-')
-    );
-    this.router.navigate(['/movie', movieTitle]);
-  }
-
-  getLimitedWords(text: string, limit: number): string {
-    if (!text) return '';
-    const words = text.split(' ');
-    return words.length <= limit
-      ? text
-      : words.slice(0, limit).join(' ') + '...';
-  }
-  changeLanguage() {
-    const lang: string = this.LanguageService.getLanguage();
-
-    if (lang === 'ar') {
-      document.documentElement.dir = 'rtl';
-    } else {
-      document.documentElement.dir = 'ltr';
-    }
-  }
-
-  getRatingColor(rate: number): string {
-    if (rate >= 7) {
-      return '#00ff88';
-    } else if (rate >= 5) {
-      return '#ffc107';
-    } else {
-      return '#dc3545';
-    }
   }
 }
