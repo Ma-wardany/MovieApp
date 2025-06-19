@@ -1,4 +1,4 @@
- nav {
+nav {
       background-color: #ffc107;
     }
     .nav-title {
@@ -15,21 +15,14 @@
     }
     .btn-outline-danger {
       background-color: transparent;
-      /* border-color: #000; */
+      border-color: #dc3545;
       color: #000;
     }
     .btn-outline-danger .fas {
-      color: #000;
+      color: #dc3545;
     }
     #wishlistCount {
       color: #000;
-    
-    }
-    .Count{
-      background-color: #131722;
-      padding: 3px 4px;
-      border-radius: 5px;
-      color: aliceblue;
     }
     .dropdown-menu {
       background-color: #333;

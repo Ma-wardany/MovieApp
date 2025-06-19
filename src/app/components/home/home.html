@@ -1,4 +1,4 @@
-<div class="hero-section">
+<!-- <div class="hero-section">
   <h1>Welcome to our movie app</h1>
 
   <div class="search-box">
@@ -93,6 +93,131 @@
       </li>
       }
 
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="nextPage()">›</button>
+      </li>
+    </ul>
+  </nav>
+</div> -->
+<div class="hero-section">
+  <h1>Welcome to our movie app</h1>
+
+  <div class="search-box">
+    <input
+      type="text"
+      [(ngModel)]="query"
+      placeholder="Search and explore..."
+    />
+    <button (click)="OnSearch()">Search</button>
+  </div>
+</div>
+
+<div class="container py-4">
+  <div class="row g-4 movies">
+    <div
+      class="col-12 col-sm-4 col-md-3 col-lg-3"
+      *ngFor="let movie of (viewState === 'search' ? searchResults : (viewState === 'genre' ? genreMovies : movies))"
+    >
+      <!-- Make card clickable to navigate to movie details -->
+      <a
+        class="text-decoration-none"
+        [routerLink]="['/movie', movie.id]"
+        style="color: inherit;"
+      >
+        <div class="card movie-card h-100 shadow-sm position-relative">
+          <div class="card-image">
+            <img
+              [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+              class="card-img-top"
+              [alt]="movie.title"
+            />
+          </div>
+
+          <div class="card-body text-light">
+            <div class="card-body position-relative">
+              <div
+                class="rating-circle-border"
+                [ngStyle]="{
+                  'background':
+                    'conic-gradient(' +
+                    getRatingColor(movie.vote_average) +
+                    ' ' +
+                    movie.vote_average * 10 +
+                    '%, #e0e0e0 0)'
+                }"
+              >
+                <div class="rating-inner">
+                  {{ (movie.vote_average * 10) | number: '1.0-0' }}%
+                </div>
+              </div>
+
+              <h5 class="movie-title mt-2">
+                {{ getLimitedWords(movie.title, 5) }}
+              </h5>
+              <div class="row mt-3">
+                <div class="col-md-9">
+                  <p class="release-date fs-6">{{ movie.release_date }}</p>
+                </div>
+                <div class="col-md-3 ms-auto">
+                  <i class="fas fa-heart favorite fs-2"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <nav aria-label="Page navigation" class="mt-5 d-flex justify-content-center">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="previousPage()">‹</button>
+      </li>
+
+      <!-- First page if needed -->
+      <li class="page-item" *ngIf="getDisplayedPages()[0] > 1">
+        <button class="page-link" (click)="goToPage(1)">1</button>
+      </li>
+      <li class="page-item disabled" *ngIf="getDisplayedPages()[0] > 2">
+        <span class="page-link">...</span>
+      </li>
+
+      <!-- Page Numbers -->
+      <li
+        class="page-item"
+        *ngFor="let page of getDisplayedPages()"
+        [class.active]="page === currentPage"
+      >
+        <button
+          class="page-link"
+          [ngClass]="{
+            'bg-warning text-dark border-0': page === currentPage
+          }"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+      </li>
+
+      <!-- Dots + Last Page -->
+      <li
+        class="page-item disabled"
+        *ngIf="getDisplayedPages().slice(-1)[0] < totalPages - 1"
+      >
+        <span class="page-link">...</span>
+      </li>
+      <li
+        class="page-item"
+        *ngIf="getDisplayedPages().slice(-1)[0] < totalPages"
+      >
+        <button class="page-link" (click)="goToPage(totalPages)">
+          {{ totalPages }}
+        </button>
+      </li>
+
+      <!-- Next -->
       <li class="page-item" [class.disabled]="currentPage === totalPages">
         <button class="page-link" (click)="nextPage()">›</button>
       </li>

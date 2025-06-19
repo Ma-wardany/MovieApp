@@ -1,51 +1,59 @@
-<h4 class="fw-bold mb-4">Watch list</h4>
+<h4 class="fw-bold mb-4 text-warning">Wishlist</h4>
 
-<div *ngIf="getWishList().length > 0; else emptyTemplate" class="row row-cols-1 row-cols-md-2 g-3">
+<div *ngIf="getWishList().length > 0; else emptyTemplate" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
   <div class="col" *ngFor="let movie of getWishList()">
-    <div class="card shadow-sm border-0 rounded-4 p-3 d-flex flex-row gap-3 align-items-start">
+    <div class="card border-0 shadow-sm position-relative rounded-3" style="width: 100%;">
 
-      <img [src]="movie.image" [alt]="movie.name"
-        style="width: 100px; height: 140px; object-fit: cover; border-radius: 0.75rem;" />
+      <!-- Image -->
+      <div class="position-relative">
+        <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path"
+          class="card-img-top"
+          [alt]="movie.title + ' Poster'"
+          style="height: 320px; object-fit: cover;" />
 
-      <div class="flex-grow-1">
-        <div class="d-flex justify-content-between align-items-start">
-          <h5 class="fw-bold mb-1">{{ movie.name }}</h5>
-          <i (click)="removeFromWishList(movie.id)" class="fa-solid fa-heart text-warning fs-5 me-4"
-            style="cursor: pointer;"></i>
+        <!-- Rating Circle -->
+        <div class="position-absolute top-100 start-0 translate-middle-y ms-3">
+          <div class="bg-dark bg-opacity-80 text-success border border-success border-3 rounded-circle
+                      d-flex align-items-center justify-content-center fw-bold"
+            style="width: 40px; height: 40px; font-size: 14px;">
+            {{ movie.vote_average * 10 | number:'1.0-0' }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Body -->
+      <div class="card-body p-3 mt-2 d-flex flex-column justify-content-between" style="height: 180px;">
+        <div>
+          <h5 class="card-title fw-semibold mb-1 text-dark">{{ movie.title }}</h5>
+          <span class="text-muted d-block mb-3">{{ movie.release_date }}</span>
         </div>
 
-        <small class="text-muted d-block mb-1">{{ movie.date }}</small>
+        <!-- Action Row: View + Heart -->
+        <div class="d-flex justify-content-between align-items-center gap-2 mt-auto">
+          <a class="btn btn-sm flex-grow-1 rounded-4 fw-medium text-dark"
+            style="background-color: #ffc107; border: none;"
+            [routerLink]="['/movie', movie.id]">
+            View
+          </a>
 
-        <div class="mb-1">
-          <ng-container *ngFor="let filled of getStarsArray(movie.rating); let i = index">
-            <i class="fa-star" [ngClass]="filled ? 'fa-solid text-warning' : 'fa-regular text-muted'"
-              style="cursor: pointer;" (click)="setRating(movie, i + 1)">
-            </i>
-          </ng-container>
-          <span class="text-muted ms-2">{{ movie.votes }}</span>
+          <i class="fa-solid fa-heart fs-4 ms-2 text-danger"
+            style="cursor: pointer;"
+            (click)="removeFromWishList(movie.id)">
+          </i>
         </div>
-
-
-        <p class="text-muted small mb-0" style="
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        ">
-          {{ movie.description }}
-        </p>
       </div>
 
     </div>
   </div>
 </div>
 
+
 <ng-template #emptyTemplate>
   <div class="d-flex flex-column align-items-center justify-content-center mt-5" style="min-height: 60vh;">
     <div class="mb-3">
       <i class="fa fa-heart-crack" style="font-size: 5rem; color: #ccc;"></i>
     </div>
-    <p class="text-dark fw-normal mb-4" style="font-size: 1.1rem;">No Movies in watch list</p>
+    <p class="text-light fw-normal mb-4" style="font-size: 1.1rem;">No Movies</p>
     <button class="btn btn-warning px-4 py-2 rounded" routerLink="/home">Back to home</button>
   </div>
 </ng-template>

@@ -203,12 +203,15 @@ export class Home {
     return pages;
   }
 
-  showMovieDetails(movie: any): void {
-    const movieTitle = encodeURIComponent(
-      movie.title.toLowerCase().replace(/ /g, '-')
-    );
-    this.router.navigate(['/movie', movieTitle]);
-  }
+  // showMovieDetails(movie: any): void {
+  //   const movieTitle = encodeURIComponent(
+  //     movie.title.toLowerCase().replace(/ /g, '-')
+  //   );
+  //   this.router.navigate(['/movie', movieTitle]);
+  // }
+  showMovieDetails(movie: any) {
+  this.router.navigate(['/movie', movie.id]);
+}
 
   getLimitedWords(text: string, limit: number): string {
     if (!text) return '';

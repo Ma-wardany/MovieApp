@@ -7,6 +7,8 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class MovieService {
+  private apiKey = 'a3943ad666db1690b61d20306eae783e';
+  private language = 'en';
   private baseUrl =
     'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc';
 
@@ -122,5 +124,12 @@ export class MovieService {
       accept: 'application/json',
     });
     return this.http.get<any>(url, { headers });
+  }
+  getMovieDetails(id: number): Observable<any> {
+    return this.http.get(`${this.actorMovies}/movie/${id}?api_key=${this.apiKey}&language=${this.language}`);
+  }
+
+  getRecommendations(id: number): Observable<any> {
+    return this.http.get(`${this.actorMovies}/movie/${id}/recommendations?api_key=${this.apiKey}&language=${this.language}`);
   }
 }
