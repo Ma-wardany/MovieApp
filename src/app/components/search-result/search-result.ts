@@ -35,4 +35,21 @@ export class SearchResult implements OnInit {
       }
     });
   }
+  getLimitedWords(text: string, limit: number): string {
+    if (!text) return '';
+    const words = text.split(' ');
+    return words.length <= limit
+      ? text
+      : words.slice(0, limit).join(' ') + '...';
+  }
+
+  getRatingColor(rate: number): string {
+    if (rate >= 7) {
+      return '#00ff88';
+    } else if (rate >= 5) {
+      return '#ffc107';
+    } else {
+      return '#dc3545';
+    }
+  }
 }

@@ -126,10 +126,14 @@ export class MovieService {
     return this.http.get<any>(url, { headers });
   }
   getMovieDetails(id: number): Observable<any> {
-    return this.http.get(`${this.actorMovies}/movie/${id}?api_key=${this.apiKey}&language=${this.language}`);
+    return this.http.get(
+      `${this.actorMovies}/movie/${id}?api_key=${this.apiKey}&language=${this.language}`
+    );
   }
 
   getRecommendations(id: number): Observable<any> {
-    return this.http.get(`${this.actorMovies}/movie/${id}/recommendations?api_key=${this.apiKey}&language=${this.language}`);
+    return this.http.get(
+      `${this.actorMovies}/movie/${id}/recommendations?api_key=${this.apiKey}&language=${this.language}`
+    );
   }
 }

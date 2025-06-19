@@ -2,12 +2,18 @@
   padding: 1rem;
 }
 
+.movie-card {
+  background-color: #131722;
+  border-color: #ffc107;
+  border-radius: 13px;
+}
 .movie-card .card {
   border-radius: 12px;
   transition: transform 0.2s;
   cursor: pointer;
   overflow: hidden;
   position: relative;
+  height: 500px !important;
 }
 
 .movie-card .card:hover {
@@ -20,27 +26,42 @@
 
 .card-image img {
   width: 100%;
-  height: 300px;
+  height: 280px;
   object-fit: cover;
+  object-position: top left;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 }
 
-.rating-circle {
-  position: absolute;
-  bottom: -12px;
-  left: 12px;
-  background-color: #222;
-  color: #00ff88;
+.card-body {
+  position: relative;
+}
+
+.rating-circle-border {
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
-  width: 45px;
-  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  top: -46px;
+  left: 4px;
+  z-index: 99999999;
+  border: 2px #131722;
+}
+
+.rating-inner {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: #131722;
+  color: #fff;
+  font-size: 12px;
   font-weight: bold;
-  font-size: 14px;
-  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .options-button {
@@ -103,4 +124,69 @@
 .page-item.disabled .page-link {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+:host ::ng-deep .owl-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  z-index: 1000;
+}
+
+:host ::ng-deep .owl-nav .owl-prev {
+  border-radius: 50%;
+  padding: 5px 12px;
+  /* width: 5%; */
+  /* height: 5%; */
+  background-color: rgb(215, 212, 39);
+  margin-left: 15px;
+}
+:host ::ng-deep .owl-nav .owl-next {
+  border-radius: 50%;
+  padding: 5px 12px;
+
+  background-color: rgb(215, 212, 39);
+  margin-right: 15px;
+}
+
+.con {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.con .layer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.66);
+  text-align: center;
+  opacity: 0;
+  transition: all 1s;
+  z-index: 1;
+}
+
+.con .layer .title {
+  font-size: large;
+  font-weight: bold;
+  margin: 15px 0;
+}
+.titledis {
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: 12px;
+}
+.con:hover .layer {
+  top: 0;
+
+  opacity: 1;
+}
+.col-md-3 {
+  cursor: pointer;
 }
