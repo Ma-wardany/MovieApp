@@ -1,25 +1,51 @@
 <div class="container my-5">
-
+  <!-- عنوان النتائج -->
   <div class="text-center mb-4">
-    <h2 class="fw-bold" style="color: #ffc107;">Results for "{{ term }}"</h2>
+    <h2 class="fw-bold" style="color: #ffc107;">
+      {{
+        currentLang === 'ar' ? 'نتائج البحث عن' :
+        currentLang === 'fr' ? 'Résultats pour' :
+        currentLang === 'zh' ? '搜索结果：' :
+        'Results for'
+      }}
+      "<span class="text-light">{{ term }}</span>"
+    </h2>
     <hr class="w-25 mx-auto border-warning">
   </div>
 
+  <!-- تحميل -->
   <div *ngIf="loading" class="text-center my-5">
     <div class="spinner-border text-warning" role="status">
-      <span class="visually-hidden">Loading...</span>
+      <span class="visually-hidden">
+        {{
+          currentLang === 'ar' ? 'تحميل...' :
+          currentLang === 'fr' ? 'Chargement...' :
+          currentLang === 'zh' ? '加载中...' :
+          'Loading...'
+        }}
+      </span>
     </div>
   </div>
 
+  <!-- لا يوجد نتائج -->
   <div *ngIf="!loading && movies.length === 0" class="text-center text-muted mt-5">
     <i class="fa-solid fa-film fa-2x mb-3 d-block"></i>
-    <p class="fs-5">No results found. Try another search.</p>
+    <p class="fs-5">
+      {{
+        currentLang === 'ar' ? 'لم يتم العثور على نتائج. جرب بحثًا آخر.' :
+        currentLang === 'fr' ? 'Aucun résultat trouvé. Essayez une autre recherche.' :
+        currentLang === 'zh' ? '未找到结果。请尝试其他搜索。' :
+        'No results found. Try another search.'
+      }}
+    </p>
   </div>
 
+  <!-- عرض النتائج -->
   <div *ngIf="!loading && movies.length > 0" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
     <div class="col" *ngFor="let movie of movies">
       <app-movie-card [movie]="movie"></app-movie-card>
     </div>
   </div>
-
 </div>
+
+<app-footer></app-footer>

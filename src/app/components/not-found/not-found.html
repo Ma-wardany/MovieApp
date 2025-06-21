@@ -1,0 +1,61 @@
+<div class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
+  <div class="row w-100 justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+      <div class="error-container p-5 text-center pulse">
+        <div class="error-number mb-3">404</div>
+
+        <h1 class="error-title">
+          {{
+            currentLang === 'ar' ? 'عذرًا! الصفحة غير موجودة' :
+            currentLang === 'fr' ? 'Oups ! Page introuvable' :
+            currentLang === 'zh' ? '哎呀！找不到页面' :
+            'Oops! Page Not Found'
+          }}
+        </h1>
+
+        <p class="error-message">
+          {{
+            currentLang === 'ar'
+              ? 'الصفحة التي تبحث عنها يبدو أنها تاهت في عالم الإنترنت. لا تقلق، يحدث ذلك حتى لأفضلنا!'
+              : currentLang === 'fr'
+              ? "La page que vous recherchez semble s'être égarée dans le monde numérique. Pas d'inquiétude, cela arrive même aux meilleurs !"
+              : currentLang === 'zh'
+              ? '您正在寻找的页面似乎在数字荒野中迷路了。别担心，这种情况很常见！'
+              : "The page you're looking for seems to have wandered off into the digital wilderness. Don't worry, it happens to the best of us!"
+          }}
+        </p>
+
+        <div class="mt-4">
+          <a routerLink="/home" class="btn-home">
+            <i class="me-2">🏠</i>
+            {{
+              currentLang === 'ar'
+                ? 'العودة إلى الصفحة الرئيسية'
+                : currentLang === 'fr'
+                ? "Retour à l'accueil"
+                : currentLang === 'zh'
+                ? '返回首页'
+                : 'Take Me Home'
+            }}
+          </a>
+        </div>
+
+        <div class="mt-4">
+          <p style="color: rgba(244, 197, 66, 0.6); font-size: 0.9rem;">
+            {{
+              currentLang === 'ar'
+                ? 'رمز الخطأ: 404 | الصفحة غير موجودة'
+                : currentLang === 'fr'
+                ? 'Code d’erreur : 404 | Page introuvable'
+                : currentLang === 'zh'
+                ? '错误代码：404 | 找不到页面'
+                : 'Error Code: 404 | Page Not Found'
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

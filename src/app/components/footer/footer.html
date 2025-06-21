@@ -1,0 +1,229 @@
+ <footer class="footer py-5">
+        <div class="container">
+    
+            <div class="row g-4 mb-4">
+                <!-- Brand Section -->
+                <div class="col-lg-3 col-md-6 text-center text-md-start">
+                    <div class="brand-logo mb-3">
+                        <i class="fas fa-film me-2"></i>MovieApp
+                    </div>
+                    <p class="brand-tagline">{{
+    currentLang === 'ar' ? 'وجهتك المثالية للأفلام والترفيه' :
+    currentLang === 'fr' ? 'Votre destination ultime pour le cinéma et le divertissement' :
+    currentLang === 'zh' ? '您终极的电影和娱乐目的地' :
+    'Your ultimate destination for movies and entertainment'
+  }}</p>
+                    <div class="social-links d-flex justify-content-center justify-content-md-start flex-wrap">
+                        <button class="btn" type="button" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button class="btn" type="button" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="btn" type="button" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </button>
+                        <button class="btn" type="button" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </button>
+                        <button class="btn" type="button" title="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </button>
+                    </div>
+                </div>
+
+              
+                <div class="col-lg-2 col-md-6 text-center text-md-start">
+  <h5>
+    {{
+      currentLang === 'ar' ? 'تصفح' :
+      currentLang === 'fr' ? 'Parcourir' :
+      currentLang === 'zh' ? '浏览' :
+      'Browse'
+    }}
+  </h5>
+  <ul class="list-unstyled">
+    <li><a href="#" class="text-decoration-none">
+      {{
+        currentLang === 'ar' ? 'أحدث الأفلام' :
+        currentLang === 'fr' ? 'Films récents' :
+        currentLang === 'zh' ? '最新电影' :
+        'Latest Movies'
+      }}
+    </a></li>
+
+    <li><a href="#" class="text-decoration-none">
+      {{
+        currentLang === 'ar' ? 'الأعلى تقييماً' :
+        currentLang === 'fr' ? 'Les mieux notés' :
+        currentLang === 'zh' ? '高评分电影' :
+        'Top Rated'
+      }}
+    </a></li>
+
+    <li><a href="#" class="text-decoration-none">
+      {{
+        currentLang === 'ar' ? 'قريباً' :
+        currentLang === 'fr' ? 'Prochainement' :
+        currentLang === 'zh' ? '即将上映' :
+        'Coming Soon'
+      }}
+    </a></li>
+
+    <li><a href="#" class="text-decoration-none">
+      {{
+        currentLang === 'ar' ? 'الأنواع' :
+        currentLang === 'fr' ? 'Genres' :
+        currentLang === 'zh' ? '类型' :
+        'Genres'
+      }}
+    </a></li>
+
+    <li><a href="#" class="text-decoration-none" routerLink="/wish-list">
+      {{
+        currentLang === 'ar' ? 'قائمة المفضلة' :
+        currentLang === 'fr' ? 'Liste de souhaits' :
+        currentLang === 'zh' ? '收藏列表' :
+        'Watchlist'
+      }}
+    </a></li>
+
+    <li><a href="#" class="text-decoration-none">
+      {{
+        currentLang === 'ar' ? 'التوصيات' :
+        currentLang === 'fr' ? 'Recommandations' :
+        currentLang === 'zh' ? '推荐' :
+        'Recommendations'
+      }}
+    </a></li>
+  </ul>
+</div>
+
+                
+             <div class="col-lg-2 col-md-6 text-center text-md-start">
+  <h5>
+    {{
+      currentLang === 'ar' ? 'الدعم' :
+      currentLang === 'fr' ? 'Support' :
+      currentLang === 'zh' ? '支持' :
+      'Support'
+    }}
+  </h5>
+  <ul class="list-unstyled">
+    <li><a href="#" class="text-decoration-none">
+      {{
+        currentLang === 'ar' ? 'مركز المساعدة' :
+        currentLang === 'fr' ? 'Centre d’aide' :
+        currentLang === 'zh' ? '帮助中心' :
+        'Help Center'
+      }}
+    </a></li>
+
+    <li><a href="#" class="text-decoration-none">
+      {{
+        currentLang === 'ar' ? 'اتصل بنا' :
+        currentLang === 'fr' ? 'Nous contacter' :
+        currentLang === 'zh' ? '联系我们' :
+        'Contact Us'
+      }}
+    </a></li>
+
+    <li><a href="#" class="text-decoration-none">
+      {{
+        currentLang === 'ar' ? 'الإبلاغ عن مشكلة' :
+        currentLang === 'fr' ? 'Signaler un problème' :
+        currentLang === 'zh' ? '报告问题' :
+        'Report Issue'
+      }}
+    </a></li>
+
+    <li><a href="#" class="text-decoration-none">
+      {{
+        currentLang === 'ar' ? 'الأسئلة الشائعة' :
+        currentLang === 'fr' ? 'FAQ' :
+        currentLang === 'zh' ? '常见问题' :
+        'FAQ'
+      }}
+    </a></li>
+
+    <li><a href="#" class="text-decoration-none">
+      {{
+        currentLang === 'ar' ? 'ملاحظات' :
+        currentLang === 'fr' ? 'Commentaires' :
+        currentLang === 'zh' ? '反馈' :
+        'Feedback'
+      }}
+    </a></li>
+
+    <li><a href="#" class="text-decoration-none">
+      {{
+        currentLang === 'ar' ? 'المجتمع' :
+        currentLang === 'fr' ? 'Communauté' :
+        currentLang === 'zh' ? '社区' :
+        'Community'
+      }}
+    </a></li>
+  </ul>
+</div>
+
+
+     
+                <div class="col-lg-5 col-md-6">
+                    <div class="newsletter-section">
+                        <h5>  {{
+    currentLang === 'ar' ? 'ابق على اطلاع' :
+    currentLang === 'fr' ? 'Restez informé' :
+    currentLang === 'zh' ? '保持更新' :
+    'Stay Updated'
+  }}</h5>
+                        <p class="mb-3"> {{
+    currentLang === 'ar' ? 'احصل على أحدث أخبار وتحديثات الأفلام على بريدك الإلكتروني' :
+    currentLang === 'fr' ? 'Recevez les dernières nouvelles et mises à jour de films par email' :
+    currentLang === 'zh' ? '获取最新电影新闻和更新' :
+    'Get the latest movie news and updates delivered to your inbox'
+  }}</p>
+                        <form class="row g-2">
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control"  [placeholder]="
+    currentLang === 'ar' ? 'أدخل بريدك الإلكتروني' :
+    currentLang === 'fr' ? 'Entrez votre adresse e-mail' :
+    currentLang === 'zh' ? '输入您的电子邮件地址' :
+    'Enter your email address'
+  " required>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-newsletter w-100"> {{
+    currentLang === 'ar' ? 'اشترك' :
+    currentLang === 'fr' ? 'S’abonner' :
+    currentLang === 'zh' ? '订阅' :
+    'Subscribe'
+  }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+       
+            <div class="footer-bottom pt-4">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <p class="mb-2">&copy; 2025 MovieApp. All rights reserved.</p>
+                        <div class="d-flex justify-content-center justify-content-md-start gap-2 flex-wrap">
+                            <span class="badge rating-badge">PG-13</span>
+                            <span class="badge rating-badge">4K</span>
+                            <span class="badge rating-badge">HDR</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-center justify-content-md-end gap-3 flex-wrap">
+                            <a href="#" class="text-decoration-none">Privacy Policy</a>
+                            <a href="#" class="text-decoration-none">Terms of Service</a>
+                            <a href="#" class="text-decoration-none">Cookie Policy</a>
+                            <a href="#" class="text-decoration-none">Accessibility</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>

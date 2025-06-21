@@ -1,28 +1,75 @@
-<!-- home.html -->
-<div class="hero-section text-center mb-5">
-  <h1>Welcome to our movie app</h1>
-<div class="search-box mt-3 d-flex justify-content-center">
+
+
+<header class="header w-100 ">
+  <div class="img" style="height: 90vh;" >   <img src="../../../assets/images/Watch-Free-Hero-2048x1152-1.webp" alt="" class="w-100 h-100" ></div>
+ 
+    <div class="layer  d-flex justify-conten-center align-items-center">
+          <div class="titledis row ">
+            <!-- <div class="col-md-6 w-75 mx-auto ">
+          
+               <h5 class=" w-75"></h5>
+       
+
+              </div>
+            <div class="col-md-6"></div> -->
+           
+      
+          </div>
+        </div>
+        
+         
+       
+
+
+  </header>
+   <div class="overlay-content "> 
+    <!-- search  -->
+    
+    <div class="hero-section text-center  mb-5">
+ 
+  <h1>{{  currentLang === 'ar' ? 'اهلا بك في موقعنا' :
+    currentLang === 'fr' ? 'Bienvenue sur notre site' :
+    currentLang === 'zh' ? '欢迎来到我们的网站' :
+    'Welcome to our movie app' }}</h1>
+<div class="search-box mt-3 d-flex justify-content-center ">
   <input
     type="text"
     [(ngModel)]="query"
-    placeholder="Search and explore..."
-    class="form-control w-50"
+ [placeholder]="
+      currentLang === 'ar' ? 'ابحث واستكشف...' :
+      currentLang === 'fr' ? 'Rechercher et explorer...' :
+      currentLang === 'zh' ? '搜索并探索...' :
+      'Search and explore...'
+    "
+    class="form-control w-100"
     (keyup.enter)="OnSearch()"
   />
-  <button class="btn btn-warning ms-2" (click)="OnSearch()">Search</button>
+
+     <button class="btn btn-warning me-2" [ngClass]="currentLang === 'ar'?'me-2':'ms-2'" (click)="OnSearch()"> {{
+      currentLang === 'ar' ? 'بحث' :
+      currentLang === 'fr' ? 'Rechercher' :
+      currentLang === 'zh' ? '搜索' :
+      'Search'
+    }}</button>
+  
+ 
 </div>
 
 </div>
 
-<div class="container">
-  <!-- Responsive Grid: 1 card on xs, up to 5 on xl -->
+
+</div>
+
+<div class="container w-100 h-100" >
+  
+<!-- movie list -->
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
     <div class="col" *ngFor="let movie of getCurrentMovies()">
       <app-movie-card [movie]="movie"></app-movie-card>
     </div>
   </div>
 
-  <!-- Pagination Section -->
+  <!-- pagination -->
   <nav class="mt-5 d-flex justify-content-center" *ngIf="totalPages > 1">
     <ul class="pagination">
       <!-- Prev -->
@@ -54,15 +101,17 @@
         <span class="page-link">...</span>
       </li>
 
-      <!-- Last Page -->
-      <li class="page-item" *ngIf="getDisplayedPages().slice(-1)[0] < totalPages">
-        <button class="page-link" (click)="goToPage(totalPages)">{{ totalPages }}</button>
-      </li>
-
-      <!-- Next -->
+      
       <li class="page-item" [class.disabled]="currentPage === totalPages">
         <button class="page-link" (click)="nextPage()" [disabled]="currentPage === totalPages">›</button>
       </li>
     </ul>
   </nav>
+
 </div>
+<!-- Footer -->
+<app-footer></app-footer>
+
+
+
+

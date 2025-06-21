@@ -1,5 +1,5 @@
-import { LanguageService } from './../../services/language-service';
 import { Component } from '@angular/core';
+import { LanguageService } from './../../services/language-service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,19 +9,19 @@ import { Component } from '@angular/core';
   styleUrl: './navbar.css'
 })
 export class Navbar {
- constructor(private LanguageService: LanguageService){
+  selectedLang: string = 'en';
 
- }
+  constructor(private languageService: LanguageService) {}
 
- selectedLang:string = 'en';
+  ngOnInit() {
+    // subscribe to language change events
+    this.languageService.language.subscribe(lang => {
+      this.selectedLang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    });
+  }
 
- selectLanguage(lang: string): void {
-    this.selectedLang = lang;
-    this.LanguageService.setLanguage(lang);
-
-   
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  selectLanguage(lang: string) {
+    this.languageService.setLanguage(lang);
   }
 }
-
-

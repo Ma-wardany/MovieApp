@@ -2,10 +2,17 @@
 
     <h3 class="nav-title">
 
-      <a href="#" class="text-decoration-none text-dark fw-bold ms-5" >{{selectedLang === 'ar' ? 'أفلام' : 'Movie App'}}</a>
+      <a href="#" [ngClass]="selectedLang === 'ar' ?'me-5':'ms-5'"  class="text-decoration-none text-dark fw-bold " >{{
+         selectedLang === 'ar' ? 'أفلام' :
+    selectedLang === 'fr' ? 'Films' :
+    selectedLang === 'zh' ? '电影' :
+    'Movie App'
+        
+        
+        }}</a>
     </h3>
 
-    <div class="d-flex align-items-center  nav-actions me-5">
+    <div class="d-flex align-items-center  nav-actions " [ngClass]="selectedLang === 'ar' ?'ms-5':'me-5'">
 
 
       <div class="dropdown me-2">
@@ -15,6 +22,8 @@
   <ul class="dropdown-menu">
     <li><a class="dropdown-item" (click)="selectLanguage('en')">English</a></li>
     <li><a class="dropdown-item" (click)="selectLanguage('ar')">العربية</a></li>
+    <li><a class="dropdown-item" (click)="selectLanguage('fr')">french</a></li>
+    <li><a class="dropdown-item" (click)="selectLanguage('zh')">Chinese</a></li>
 
   </ul>
 </div>
@@ -24,7 +33,12 @@
 
       <a routerLink="/wish-list" class="btn w  d-flex align-items-center gap-2">
         <i class="fas fa-heart fs-5 text-danger"></i>
-        <span id="wishlistCount"> {{selectedLang === 'ar' ? 'المفضله' : 'Watchlist  '}} </span>
+        <span id="wishlistCount"> {{
+          selectedLang === 'ar' ? 'المفضله' :
+          selectedLang === 'fr' ? 'Favoris' :
+          selectedLang === 'zh' ? '收藏' :
+          'Watchlist'
+        }} </span>
       </a>
     </div>
   </nav>

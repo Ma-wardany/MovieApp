@@ -19,7 +19,7 @@ export class Home implements OnInit {
   totalPages = 0;
   viewState: 'movies' | 'search' | 'genre' = 'movies';
   loading = false;
-
+currentLang:string=''
   // Example genres map; adjust as needed
   genres: { [key: number]: string } = {
     28: 'Action',
@@ -43,18 +43,24 @@ export class Home implements OnInit {
   ngOnInit(): void {
     this.changeLanguageDirection();
     this.loadMovies(this.currentPage);
-    // If you have a default genre, you could call fetchMoviesByGenre() here.
-    this.LanguageService.language.subscribe(() => {
+   
+    // subscribe to language change events
+    this.LanguageService.language.subscribe(lang => {
+      this.currentLang=lang
       this.changeLanguageDirection();
       this.reloadCurrentView();
+  
+      
     });
   }
 
+  // Set  direction of component based on selected language
   changeLanguageDirection(): void {
     document.documentElement.dir =
       this.LanguageService.getLanguage() === 'ar' ? 'rtl' : 'ltr';
   }
 
+  // get currently displayed movies 
   getCurrentMovies(): any[] {
     if (this.viewState === 'search') {
       return this.searchResults;
@@ -65,16 +71,19 @@ export class Home implements OnInit {
     return this.movies;
   }
 
+  // navigate to search results page
   OnSearch(): void {
     const trimmed = this.query.trim();
     if (!trimmed) {
       console.warn('Search query is empty');
       return;
     }
-    // Navigate to /search?q=...
+   
     this.router.navigate(['/search-result'], { queryParams: { q: trimmed } });
   }
 
+
+  // call the search API 
   search(): void {
     if (!this.query.trim()) {
       console.warn('Search query is empty'); // Debug
@@ -95,6 +104,8 @@ export class Home implements OnInit {
     });
   }
 
+
+  // load all movies by page
   loadMovies(page: number): void {
     this.loading = true;
     this.viewState = 'movies';
@@ -112,6 +123,8 @@ export class Home implements OnInit {
     });
   }
 
+
+// load movies for a specific genre
   fetchMoviesByGenre(): void {
     if (!this.selectedGenre) {
       console.warn('No genre selected'); // Debug
@@ -134,6 +147,7 @@ export class Home implements OnInit {
     });
   }
 
+   //go to next page
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
@@ -141,7 +155,7 @@ export class Home implements OnInit {
       this.reloadCurrentView();
     }
   }
-
+// go to previous page 
   previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -150,6 +164,7 @@ export class Home implements OnInit {
     }
   }
 
+  // jump to a specific page number
   goToPage(page: number): void {
     if (page === this.currentPage) {
       return;
@@ -158,7 +173,19 @@ export class Home implements OnInit {
     console.log('Navigating to Page:', this.currentPage); // Debug
     this.reloadCurrentView();
   }
-
+  //  Generate array of pagination buttons
+getDisplayedPages(): number[] {
+    const maxPagesToShow = 5;
+    let start = Math.max(1, this.currentPage - 2);
+    let end = Math.min(this.totalPages, start + maxPagesToShow - 1);
+    if (end - start < maxPagesToShow - 1) {
+      start = Math.max(1, end - maxPagesToShow + 1);
+    }
+    const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    console.log('Displayed Pages:', pages); // Debug
+    return pages;
+  }
+  // Jump to a specific page number
   private reloadCurrentView(): void {
     console.log('Reloading View:', this.viewState, 'Page:', this.currentPage); // Debug
     if (this.viewState === 'movies') {
@@ -186,15 +213,13 @@ export class Home implements OnInit {
     }
   }
 
-  getDisplayedPages(): number[] {
-    const maxPagesToShow = 5;
-    let start = Math.max(1, this.currentPage - 2);
-    let end = Math.min(this.totalPages, start + maxPagesToShow - 1);
-    if (end - start < maxPagesToShow - 1) {
-      start = Math.max(1, end - maxPagesToShow + 1);
-    }
-    const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
-    console.log('Displayed Pages:', pages); // Debug
-    return pages;
+
+  
+  
+
+  
+
+  selectLanguage(lang: string) {
+    this.LanguageService.setLanguage(lang);
   }
 }

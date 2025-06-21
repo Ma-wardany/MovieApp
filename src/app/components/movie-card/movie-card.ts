@@ -1,3 +1,4 @@
+import { LanguageService } from './../../services/language-service';
 // movie-card.ts
 import { Component, Input, OnInit } from '@angular/core';
 import { WishListService } from '../../services/wish-list-service';
@@ -11,14 +12,23 @@ import { Router } from '@angular/router';
 })
 export class MovieCard implements OnInit {
   @Input() movie!: any;
-
+  currentLang:string=''
+wishlist: any[] = [];
   constructor(
     private wishListService: WishListService,
-    private router: Router
+    private router: Router,
+   private LanguageService:LanguageService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+ this.LanguageService.language.subscribe(lang => {
+      this.currentLang=lang
+      
+    });
 
+  }
+
+// Add or remove the movie from wishlist
   toggleFavourite(event: Event): void {
     // prevent parent navigation/click handlers
     event.stopPropagation();
@@ -30,12 +40,13 @@ export class MovieCard implements OnInit {
     }
   }
 
+  // Check if the movie is already in wishlist
+
   isInWishlist(): boolean {
-    return this.wishListService
-      .getWishList()
-      .some((m: any) => m.id === this.movie.id);
+    return this.wishListService.getWishList().some((m: any) => m.id === this.movie.id);
   }
 
+// Limit text to a specific number of words
   getLimitedWords(text: string, limit: number): string {
     if (!text) return '';
     const words = text.split(' ');
@@ -44,6 +55,7 @@ export class MovieCard implements OnInit {
       : words.slice(0, limit).join(' ') + '...';
   }
 
+// Return a color based on the movie rating
   getRatingColor(rate: number): string {
     if (rate >= 7) {
       return '#00ff88'; // greenish

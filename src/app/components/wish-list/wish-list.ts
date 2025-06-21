@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { LanguageService } from './../../services/language-service';
+import { Component, OnInit } from '@angular/core';
 import { WishListService } from '../../services/wish-list-service';
 
 @Component({
@@ -7,12 +8,30 @@ import { WishListService } from '../../services/wish-list-service';
   templateUrl: './wish-list.html',
   styleUrl: './wish-list.css'
 })
-export class WishList {
-  constructor(private _wishListService: WishListService) {}
+export class WishList implements OnInit {
+wishlist: any[] = [];
+  currentLang: string = 'en';
 
-  getWishList() {
-    return this._wishListService.getWishList();
+  constructor(private _wishListService: WishListService ,public LanguageService:LanguageService) {}
+
+  ngOnInit(): void {
+ 
+// subscribe to language change events
+   this.LanguageService.language.subscribe((lang:string) => {
+    this.currentLang = lang;
+    this.setDirection(lang);
+     this._wishListService.refetchWishListMovies();
+  });
+
+ // subscribe to wishlist change events
+  this._wishListService.wishList$.subscribe((list) => {
+    this.wishlist = list;
+  });
   }
+setDirection(lang: string) {
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+}
+ //remove From WishList
 
   removeFromWishList(id: number) {
     this._wishListService.removeFromWishlist(id);

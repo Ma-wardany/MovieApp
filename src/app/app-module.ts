@@ -13,6 +13,8 @@ import { WishList } from './components/wish-list/wish-list';
 import { FormsModule } from '@angular/forms';
 import { MovieService } from './services/movie-service';
 import { WishListService } from './services/wish-list-service';
+import { Footer } from './components/footer/footer';
+import { NotFound } from './components/not-found/not-found';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { WishListService } from './services/wish-list-service';
     MovieDetails,
     MovieCard,
     SearchResult,
-    WishList
+    WishList,
+    Footer,
+    NotFound
   ],
   imports: [
     BrowserModule,
